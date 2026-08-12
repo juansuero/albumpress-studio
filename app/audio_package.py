@@ -497,7 +497,7 @@ def generate_audio_package(
         filters.append(f"[{index}:a]atrim=start={float(item.get('sourceStartSeconds', 0.0)):.6f}:duration={float(item['durationSeconds']):.6f},asetpts=PTS-STARTPTS[a{index}]")
     joined = "".join(f"[a{index}]" for index in range(len(snapshot["tracks"])))
     filters.append(f"{joined}concat=n={len(snapshot['tracks'])}:v=0:a=1[joined]")
-    audio_chain = "[joined]aresample=44100:resampler=soxr,aformat=sample_rates=44100:channel_layouts=stereo"
+    audio_chain = "[joined]aresample=44100,aformat=sample_rates=44100:channel_layouts=stereo"
     fade_in = float(snapshot.get("fadeInSeconds") or 0)
     fade_out = float(snapshot.get("fadeOutSeconds") or 0)
     if fade_in > 0:
