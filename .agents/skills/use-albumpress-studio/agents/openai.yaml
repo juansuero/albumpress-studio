@@ -1,0 +1,4 @@
+interface:
+  display_name: "Use AlbumPress Studio"
+  short_description: "Route requests to the right local workflow"
+  default_prompt: "Use $use-albumpress-studio to decide and run the correct AlbumPress Studio workflow."

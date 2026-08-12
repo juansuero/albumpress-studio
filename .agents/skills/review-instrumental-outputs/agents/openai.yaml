@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Instrumental Outputs"
+  short_description: "Compare, approve, reject, and select outputs"
+  default_prompt: "Use $review-instrumental-outputs to review Candidates and persist final Selections."

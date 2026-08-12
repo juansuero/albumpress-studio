@@ -1,0 +1,1 @@
+"""AlbumPress Studio local application."""

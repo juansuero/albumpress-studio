@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage Album Project"
+  short_description: "Open, create, relink, or rescan projects"
+  default_prompt: "Use $manage-album-project to open or prepare my local Album Project safely."

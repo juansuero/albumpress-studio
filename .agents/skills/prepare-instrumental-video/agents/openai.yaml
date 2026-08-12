@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prepare Instrumental Video"
+  short_description: "Prepare proof, render, and package local video"
+  default_prompt: "Use $prepare-instrumental-video to prepare a reviewed local instrumental video package."

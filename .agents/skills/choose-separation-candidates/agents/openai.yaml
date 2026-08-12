@@ -1,0 +1,4 @@
+interface:
+  display_name: "Choose Separation Candidates"
+  short_description: "Discover, calibrate, and process candidates"
+  default_prompt: "Use $choose-separation-candidates to test and process separation Candidates safely."

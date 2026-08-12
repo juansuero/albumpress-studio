@@ -1,0 +1,4 @@
+interface:
+  display_name: "Recover Processing Job"
+  short_description: "Inspect and safely recover interrupted jobs"
+  default_prompt: "Use $recover-albumpress-job to diagnose and recover the current local job."

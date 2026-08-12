@@ -1,0 +1,4 @@
+interface:
+  display_name: "Export Instrumental Audio"
+  short_description: "Build a validated local album audio package"
+  default_prompt: "Use $export-instrumental-audio to create a validated local full-album audio package."

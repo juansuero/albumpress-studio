@@ -1,0 +1,4 @@
+interface:
+  display_name: "Produce Instrumental Album"
+  short_description: "Safely prepare instrumental album outputs"
+  default_prompt: "Use $produce-instrumental-album to prepare an instrumental album through the application gates."

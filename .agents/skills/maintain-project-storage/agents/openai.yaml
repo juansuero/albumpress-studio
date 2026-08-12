@@ -1,0 +1,4 @@
+interface:
+  display_name: "Maintain Project Storage"
+  short_description: "Inspect, migrate, and clean project artifacts"
+  default_prompt: "Use $maintain-project-storage to inspect and safely maintain Album Project storage."

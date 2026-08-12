@@ -1,0 +1,12 @@
+[project]
+name = "albumpress-studio"
+version = "0.1.0"
+description = "Agent-first studio for separating, auditioning, and packaging instrumental albums as MP3 and MP4"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+keywords = ["audio-separation", "ai-agents", "codex", "local-first", "instrumental", "mp3", "mp4"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+*.tsbuildinfo
+
+# Local application state and generated media
+.stem-comparison/
+final/
+project.json
+*.log
+
+# Local agent working files
+.scratch/
+.impeccable/
+
+# Historical local release-evidence scripts
+scripts/apply_ticket*.py
+scripts/finalize_ticket*.py
+scripts/ticket*.py
+frontend/scripts/ticket*
+frontend/scripts/render-ticket-*.mjs
+frontend/scripts/run-ticket*-benchmark.ps1
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini
