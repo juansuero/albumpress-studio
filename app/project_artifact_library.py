@@ -144,11 +144,12 @@ def _safe_relative(root: Path, value: str | Path, *, allow_missing: bool = False
     candidate = Path(raw)
     if candidate.is_absolute() or any(part == ".." for part in candidate.parts):
         raise ArtifactLibraryError("Artifact paths must be relative and cannot traverse parent folders.")
-    path = (root / candidate).resolve(strict=False)
+    root = root.resolve(strict=True)
+    path = root / candidate
     if not allow_missing and not path.exists():
         raise ArtifactLibraryError(f"Registered artifact is missing: {candidate.as_posix()}")
-    _assert_no_link_escape(root.resolve(), path)
-    return path
+    _assert_no_link_escape(root, path)
+    return path.resolve(strict=False)
 
 
 def _relative(root: Path, path: Path) -> str:
