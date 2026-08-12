@@ -153,8 +153,9 @@ def _safe_relative(root: Path, value: str | Path, *, allow_missing: bool = False
 
 
 def _relative(root: Path, path: Path) -> str:
-    _assert_no_link_escape(root.resolve(), path.resolve(strict=False))
-    return path.resolve(strict=False).relative_to(root.resolve()).as_posix()
+    root = root.resolve(strict=True)
+    _assert_no_link_escape(root, path)
+    return path.resolve(strict=False).relative_to(root).as_posix()
 
 
 def _manifest_date(manifest: dict[str, Any]) -> str:
