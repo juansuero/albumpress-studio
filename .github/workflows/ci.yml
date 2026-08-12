@@ -25,6 +25,15 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci --prefix frontend
       - run: npm run browser:ensure --prefix frontend
-      - run: python -m pytest -q
+      - id: backend-tests
+        continue-on-error: true
+        run: python -m pytest -q --tb=short 2>&1 | Tee-Object -FilePath pytest.log
+      - if: steps.backend-tests.outcome == 'failure'
+        shell: pwsh
+        run: |
+          $tail = (Get-Content pytest.log -Tail 80) -join "`n"
+          $message = $tail.Replace("%", "%25").Replace("`r", "%0D").Replace("`n", "%0A")
+          Write-Output "::error title=Backend tests failed::$message"
+          exit 1
       - run: npm run test --prefix frontend
       - run: npm run build --prefix frontend
