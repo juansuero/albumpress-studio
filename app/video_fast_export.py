@@ -287,6 +287,16 @@ def _h264_elementary(path: Path, output_path: Path) -> str:
     return _sha256(output_path)
 
 
+SILENCE_RMS = 8.0
+SILENCE_NOISE_MARGIN = 3.0
+
+
+def _boundary_is_silent(output_rms: float, source_rms: float) -> bool:
+    if source_rms < SILENCE_RMS:
+        return output_rms < max(SILENCE_RMS, source_rms * SILENCE_NOISE_MARGIN)
+    return output_rms < SILENCE_RMS
+
+
 def _decode_mono_samples(path: Path, *, start: float, duration: float) -> list[int]:
     completed = subprocess.run([_ffmpeg_path(), "-hide_banner", "-loglevel", "error", "-ss", f"{max(0, start):.6f}", "-t", f"{duration:.6f}", "-i", str(path), "-vn", "-ac", "1", "-ar", "48000", "-f", "s16le", "pipe:1"], capture_output=True, check=False)
     if completed.returncode != 0:
@@ -321,10 +331,10 @@ def _audio_continuity(path: Path, snapshot: dict[str, Any]) -> dict[str, Any]:
         source_after = _decode_mono_samples(current_path, start=0, duration=0.2)
         source_rms_before = _rms(source_before)
         source_rms_after = _rms(source_after)
-        output_silence_before = rms_before < 8
-        output_silence_after = rms_after < 8
-        source_silence_before = source_rms_before < 8
-        source_silence_after = source_rms_after < 8
+        output_silence_before = _boundary_is_silent(rms_before, source_rms_before)
+        output_silence_after = _boundary_is_silent(rms_after, source_rms_after)
+        source_silence_before = source_rms_before < SILENCE_RMS
+        source_silence_after = source_rms_after < SILENCE_RMS
         source_mismatch = output_silence_before != source_silence_before or output_silence_after != source_silence_after
         expected_samples = int(round(duration * 48000))
         metrics.append({

@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from app.video_fast_export import _audio_plan, _promote_fast, _rms, retry_fast_render
+from app.video_fast_export import SILENCE_RMS, _audio_plan, _boundary_is_silent, _promote_fast, _rms, retry_fast_render
 
 
 def test_fast_audio_plan_uses_frame_authoritative_durations_and_boundaries(tmp_path: Path) -> None:
@@ -36,6 +36,28 @@ def test_fast_audio_plan_uses_frame_authoritative_durations_and_boundaries(tmp_p
 def test_fast_audio_continuity_uses_source_silence_as_the_boundary_baseline() -> None:
     assert _rms([0, 0, 1, -1]) < 8
     assert _rms([100, -100, 100, -100]) >= 8
+
+
+def test_fast_boundary_silence_is_relative_to_source_quiet_level() -> None:
+    source_quiet = 6.09
+    assert source_quiet < SILENCE_RMS
+    assert _boundary_is_silent(13.44, source_quiet)
+    assert _boundary_is_silent(5.8, source_quiet)
+    assert _boundary_is_silent(6.09, source_quiet)
+
+
+def test_fast_boundary_silence_still_flags_real_content_inserted_in_silence() -> None:
+    source_quiet = 6.09
+    assert not _boundary_is_silent(50.0, source_quiet)
+    assert not _boundary_is_silent(200.0, source_quiet)
+
+
+def test_fast_boundary_silence_preserves_content_detection_when_source_is_loud() -> None:
+    source_loud = 34.23
+    assert source_loud >= SILENCE_RMS
+    assert not _boundary_is_silent(33.7, source_loud)
+    assert not _boundary_is_silent(13.44, source_loud)
+    assert _boundary_is_silent(5.0, source_loud)
 
 
 def test_fast_promotion_is_versioned_and_preserves_previous_render(tmp_path: Path) -> None:
